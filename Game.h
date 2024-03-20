@@ -32,10 +32,11 @@ private:
 	std::vector<sf::RectangleShape> enemies;
 
 	// Game Logics
-	int points;
+	unsigned points;
 	float enemySpawnTimer;
 	float enemySpawnTimerMax;
 	int maxEnemies;
+	bool mouseHeld;
 
 	// Private functions
 	void initVariables();
