@@ -126,28 +126,26 @@ void Game::updateEnemies() {
 			this->enemySpawnTimer += 1.f;
 	}
 
-	// Moving and updating enemies
+	// Move the enemy
 	for (int i = 0; i < this->enemies.size(); i++) {
 		this->enemies[i].move(0.f, 1.f);
+		// Check if enemy reached bottom of screen
+		if (this->enemies[i].getPosition().y > this->window->getSize().y) {
+			this->enemies.erase(this->enemies.begin() + i);
+		}
+	}
 
+	// Check if clicked upon
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		bool deleted = false;
-
-		// Check if clicked upon
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		for (size_t i = 0; i < this->enemies.size() && deleted == false; i++)
+		{
 			if (this->enemies[i].getGlobalBounds().contains(this->mousePosView)) {
 				deleted = true;
-
 				//Gain points
 				points += 10.f;
 			}
 		}
-		// Check if enemy reached bottom of screen
-		if (this->enemies[i].getPosition().y > this->window->getSize().y) {
-			deleted = true;
-		}
-
-		if(deleted)
-			this->enemies.erase(this->enemies.begin() + i);
 	}
 }
 
