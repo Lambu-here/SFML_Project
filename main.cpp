@@ -1,11 +1,13 @@
 // Project includes
 #include "Game.h"
 
+/*
 // Console Debugging and filing includes
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <istream>
+*/
 
 int main() {
 	//Initialze a seed for randomness

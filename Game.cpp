@@ -1,11 +1,12 @@
 #include "Game.h"
+
 // private Functions
 void Game::initVariables() {
 	this->window = nullptr;
 
 	// Game Logic
 	this->points = 0;
-	this->enemySpawnTimerMax = 5.f;
+	this->enemySpawnTimerMax = 50.f;
 	this->enemySpawnTimer = this->enemySpawnTimerMax;
 	this->maxEnemies = 5;
 }
@@ -13,7 +14,7 @@ void Game::initVariables() {
 void Game::initWindow() {
 	this->videoMode.height = 600;
 	this->videoMode.width = 800;
-	//this->videoMode.getDesktopMode(); // For fullscreen games
+	//this->videoMode.getDesktopMode(); // For fullscreen games (Desktop rez)
 	this->window = new sf::RenderWindow(this->videoMode, "Hello World!");
 	this->window->setFramerateLimit(60);
 }
@@ -59,7 +60,9 @@ void Game::spawnEnemy() {
 	*/
 
 	this->enemy.setPosition(
-		static_cast<float>(rand() % static_cast<int>(this->window->getSize().x - this->enemy.getSize().x)),
+		static_cast<float>(
+			rand() % static_cast<int>(this->window->getSize().x - this->enemy.getSize().x)
+		),
 		0.f
 	);
 
@@ -67,6 +70,8 @@ void Game::spawnEnemy() {
 	
 	//Spawn the enemy
 	this->enemies.push_back(this->enemy);
+
+	// Remove the enemy at the bottom of the screen
 }
 
 void Game::pollEvents() {

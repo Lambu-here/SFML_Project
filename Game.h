@@ -12,9 +12,13 @@
 #include <SFML/Network.hpp>
 #include <SFML/OpenGL.hpp>
 
+/*
+	Game wrapper class (Basic functionality)
+*/
+
 class Game {
 private:
-	// Variables
+	// Window Control
 	sf::RenderWindow* window;
 	sf::Event ev;
 	sf::VideoMode videoMode;
@@ -49,9 +53,11 @@ public:
 	// Functions
 	void pollEvents();
 	void spawnEnemy();
+
 	void updateMousePosition();
 	void updateEnemies();
 	void update();
+	
 	void renderEnemies();
 	void render();
 };
