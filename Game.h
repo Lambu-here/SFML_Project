@@ -32,7 +32,9 @@ private:
 	std::vector<sf::RectangleShape> enemies;
 
 	// Game Logics
+	bool endGame;
 	unsigned points;
+	int health;
 	float enemySpawnTimer;
 	float enemySpawnTimerMax;
 	int maxEnemies;
@@ -50,6 +52,7 @@ public:
 
 	//	Accessors
 	const bool running() const;
+	const bool getEndGame() const;
 
 	// Functions
 	void pollEvents();

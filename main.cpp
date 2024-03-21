@@ -17,7 +17,7 @@ int main() {
 	Game game;
 	
 	// Game Loop
-	while (game.running()) {
+	while (game.running() && !game.getEndGame()) {
 
 		// Event polling
 		game.update();
