@@ -7,7 +7,7 @@ void Game::initVariables() {
 	// Game Logic
 	this->endGame = false;
 	this->points = 0;
-	this->health = 10;
+	this->health = 100;
 	this->enemySpawnTimerMax = 20.f;
 	this->enemySpawnTimer = this->enemySpawnTimerMax;
 	this->maxEnemies = 20;
@@ -37,7 +37,6 @@ void Game::initText() {
 
 void Game::initEnemeies() {
 	this->enemy.setPosition(10.f, 10.f);
-	this->enemy.setSize(sf::Vector2f(100.f, 100.f));
 	this->enemy.setScale(sf::Vector2f(0.5f, 0.5f));
 	this->enemy.setFillColor(sf::Color::Cyan);
 	//this->enemy.setOutlineColor(sf::Color::Green);
@@ -86,7 +85,34 @@ void Game::spawnEnemy() {
 		), 0.f
 	);
 
-	this->enemy.setFillColor(sf::Color::Green);
+	int type = rand() % 5;
+
+	switch (type) {
+	case 0:
+		this->enemy.setSize(sf::Vector2f(20.f, 20.f));
+		this->enemy.setFillColor(sf::Color::Magenta);
+		break;
+	case 1:
+		this->enemy.setSize(sf::Vector2f(40.f, 40.f));
+		this->enemy.setFillColor(sf::Color::Blue);
+		break;
+	case 2:
+		this->enemy.setSize(sf::Vector2f(60.f, 60.f));
+		this->enemy.setFillColor(sf::Color::Cyan);
+		break;
+	case 3:
+		this->enemy.setSize(sf::Vector2f(80.f, 80.f));
+		this->enemy.setFillColor(sf::Color::Red);
+		break;
+	case 4:
+		this->enemy.setSize(sf::Vector2f(100.f, 100.f));
+		this->enemy.setFillColor(sf::Color::Green);
+		break;
+	default:
+		this->enemy.setSize(sf::Vector2f(100.f, 100.f));
+		this->enemy.setFillColor(sf::Color::Yellow);
+		break;
+	}
 	
 	//Spawn the enemy
 	this->enemies.push_back(this->enemy);
@@ -171,10 +197,24 @@ void Game::updateEnemies() {
 			for (size_t i = 0; i < this->enemies.size() && deleted == false; i++) {
 				if (this->enemies[i].getGlobalBounds().contains(this->mousePosView)) {
 					deleted = true;
-					this->enemies.erase(this->enemies.begin() + i);
 					//Gain points
-					this->points += 1;
+					sf::Color enemType = this->enemies[i].getFillColor();
+					
+					if(enemType == sf::Color::Magenta)
+						this->points += 10;
+					else if(enemType == sf::Color::Blue)
+						this->points += 7;
+					else if(enemType == sf::Color::Cyan)
+						this->points += 5;
+					else if(enemType == sf::Color::Red)
+						this->points += 3;
+					else if(enemType == sf::Color::Green)
+						this->points += 1;
+
 					std::cout << "Points: " << this->points << std::endl;
+
+					// Erase the enemy
+					this->enemies.erase(this->enemies.begin() + i);
 				}
 			}
 		}
