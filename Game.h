@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include <ctime>
 
@@ -27,6 +28,12 @@ private:
 	sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
 
+	//Resources
+	sf::Font font;
+
+	//Text
+	sf::Text uiText;
+
 	// Game Objects
 	sf::RectangleShape enemy;
 	std::vector<sf::RectangleShape> enemies;
@@ -43,6 +50,8 @@ private:
 	// Private functions
 	void initVariables();
 	void initWindow();
+	void initFonts();
+	void initText();
 	void initEnemeies();
 
 public:
@@ -55,13 +64,15 @@ public:
 	const bool getEndGame() const;
 
 	// Functions
-	void pollEvents();
 	void spawnEnemy();
 
+	void pollEvents();
+	void updateText();
 	void updateMousePosition();
 	void updateEnemies();
 	void update();
 	
-	void renderEnemies();
+	void renderText(sf::RenderTarget& target);
+	void renderEnemies(sf::RenderTarget& target);
 	void render();
 };

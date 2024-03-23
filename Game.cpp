@@ -22,6 +22,19 @@ void Game::initWindow() {
 	this->window->setFramerateLimit(60);
 }
 
+void Game::initFonts() {
+	if (this->font.loadFromFile("./MadimiOne-Regular.ttf")) {
+		std::cout << "Error::Game::initFont: Failed to lead fonts\n";
+	}
+}
+
+void Game::initText() {
+	this->uiText.setFont(this->font);
+	this->uiText.setCharacterSize(24);
+	this->uiText.setFillColor(sf::Color::White);
+	this->uiText.setString("NONE");
+}
+
 void Game::initEnemeies() {
 	this->enemy.setPosition(10.f, 10.f);
 	this->enemy.setSize(sf::Vector2f(100.f, 100.f));
@@ -36,6 +49,8 @@ void Game::initEnemeies() {
 Game::Game() {
 	this->initVariables();
 	this->initWindow();
+	this->initFonts();
+	this->initText();
 	this->initEnemeies();
 }
 
@@ -68,8 +83,7 @@ void Game::spawnEnemy() {
 	this->enemy.setPosition(
 		static_cast<float>(
 			rand() % static_cast<int>(this->window->getSize().x - this->enemy.getSize().x)
-		),
-		0.f
+		), 0.f
 	);
 
 	this->enemy.setFillColor(sf::Color::Green);
@@ -99,6 +113,13 @@ void Game::pollEvents() {
 			break;
 		}
 	}
+}
+
+void Game::updateText() {
+	std::stringstream ss;
+	ss << "Points: " << this->points << "\n"
+		<< "Health: " << this->health;
+	this->uiText.setString(ss.str());
 }
 
 void Game::updateMousePosition() {
@@ -163,9 +184,13 @@ void Game::updateEnemies() {
 	}
 }
 
-void Game::renderEnemies() {
+void Game::renderText(sf::RenderTarget& target) {
+	target.draw(this->uiText);
+}
+
+void Game::renderEnemies(sf::RenderTarget& target) {
 	for (int i = 0; i < this->enemies.size(); i++) {
-		this->window->draw(this->enemies[i]);
+		target.draw(this->enemies[i]);
 	}
 }
 
@@ -177,6 +202,8 @@ void Game::update() {
 
 	if (this->endGame == false) {
 		this->updateMousePosition();
+
+		this->updateText();
 
 		this->updateEnemies();
 	}
@@ -199,7 +226,8 @@ void Game::render() {
 	this->window->clear(sf::Color::Black);
 
 	// Draw game objects
-	this->renderEnemies();
+	this->renderEnemies(*this->window);
+	this->renderText(*this->window);
 
 	// Draw UI
 	this->window->display();
